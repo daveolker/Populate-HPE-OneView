@@ -12,3 +12,4 @@ Once you have these three pieces of information, you will need to modify lines 1
 $ip_addr  = '<DHCP IP Address assigned to DCS appliance>'
 $password = '<New Administrator Password>'
 $hostname = '<Hostname associated with DHCP IP Address of the DCS appliance>'
+
