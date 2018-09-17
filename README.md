@@ -10,7 +10,7 @@ Here are the steps you need to take prior to running the script:
 Once you have these three pieces of information, you will need to modify lines 173-175 in the script to reflect your IP/password/hostname:
 
 ```
-$ip_addr  = <DHCP IP Address assigned to DCS appliance>
-$password = <New Administrator Password>
-$hostname = <Hostname associated with DHCP IP Address of the DCS appliance>
+$ip_addr  = "<DHCP IP Address assigned to DCS appliance>"
+$password = "<New Administrator Password>"
+$hostname = "<Hostname associated with DHCP IP Address of the DCS appliance>"
 ```
