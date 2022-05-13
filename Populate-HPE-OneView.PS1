@@ -10,25 +10,25 @@ function ConfigureAppliance {
     # Accept the EULA
     if (Get-OVEulaStatus -appliance $vm_ipaddr) {
         Write-Output $vm_ipaddr "Accepting EULA..."
-        $ret = Set-OVEulaStatus -supportAccess "yes" -appliance $vm_ipaddr
+        Set-OVEulaStatus -supportAccess "yes" -appliance $vm_ipaddr
     }
 
     # For initial setup, connect first using "default" Administrator credentials
     try {
         $password = ConvertTo-SecureString "admin" -AsPlainText -Force
         $credential = New-Object System.Management.Automation.PSCredential('Administrator',$password)
-        $ret = Connect-OVMgmt -appliance $vm_ipaddr -Credential $credential
+        Connect-OVMgmt -appliance $vm_ipaddr -Credential $credential
     } catch [ HPEOneView.Appliance.PasswordChangeRequired ] {
-        $ret = Set-OVInitialPassword -oldPassword "admin" -newPassword "$vm_password" -Appliance $vm_ipaddr
+        Set-OVInitialPassword -oldPassword "admin" -newPassword "$vm_password" -Appliance $vm_ipaddr
     }
     $password = ConvertTo-SecureString $vm_password -AsPlainText -Force
     $credential = New-Object System.Management.Automation.PSCredential('Administrator',$password)
-    $ret = Connect-OVMgmt -appliance $vm_ipaddr -Credential $credential
+    Connect-OVMgmt -appliance $vm_ipaddr -Credential $credential
 
     #
     # Update the networking configuration.
     # Key assumption here is that DHCP address we received initially will not change.
-    $task = Set-OVApplianceNetworkConfig -hostname $vm_hostname -ipv4type "DHCP" -ipv6type "UNCONFIGURE"
+    Set-OVApplianceNetworkConfig -hostname $vm_hostname -ipv4type "DHCP" -ipv6type "UNCONFIGURE"
     Disconnect-OVMgmt
 }
 
@@ -45,7 +45,6 @@ function CreateNetworks {
 function ImportStorageArray {
     $password = ConvertTo-SecureString 'dcs' -AsPlainText -Force
     $credential = New-Object System.Management.Automation.PSCredential('dcs',$password)
-    $myArrayDCSName = "ThreePAR-1"
     $myArrayDomain = "TestDomain"
     $myArrayPools = [System.Array]("FST_CPG1", "FST_CPG2")
     $myArray = "172.18.11.11"
